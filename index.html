@@ -77,18 +77,18 @@
     <div style="display:flex;justify-content:space-between;align-items:start;gap:12px">
       <div>
         <h1>Flatiron Summer Rentals</h1>
-        <p class="sub">Furnished places to rent near the Flatiron District for your July–August 2026 internship. Every source below was checked for live, real inventory. Use the filters to narrow by type, neighborhood, price, and how it was verified.</p>
+        <p class="sub">Furnished places to rent near the Flatiron District for your July–August 2026 internship. I loaded and confirmed 10 of these myself. 3 block automated checks and I could not verify them (flagged below). Use the filters to narrow by type, neighborhood, price, and verification status.</p>
       </div>
       <button class="print" onclick="window.print()">Print / PDF</button>
     </div>
-    <div class="meta">13 verified sources · Validated 15 Jun 2026 · Flatiron sits a 5–15 min walk from NoMad, Gramercy, Chelsea, Union Square &amp; Murray Hill</div>
+    <div class="meta">13 sources · 10 loaded &amp; confirmed live, 3 could not be verified (bot-blocked) · Checked 15 Jun 2026 · Flatiron is a 5–15 min walk from NoMad, Gramercy, Chelsea, Union Square &amp; Murray Hill</div>
     <div class="legend">
       <span><span class="dot" style="background:var(--direct)"></span> Direct-book unit</span>
       <span><span class="dot" style="background:var(--intern)"></span> Intern / student housing</span>
       <span><span class="dot" style="background:var(--share)"></span> Room / coliving</span>
       <span><span class="dot" style="background:var(--market)"></span> Sublet marketplace</span>
-      <span style="margin-left:6px">✅ <em>= I loaded it &amp; confirmed live</em></span>
-      <span>⚠️ <em>= real site, opens in your browser</em></span>
+      <span style="margin-left:6px">✅ <em>= I loaded it &amp; confirmed live inventory</em></span>
+      <span>⚠️ <em>= I could NOT load it to verify (site blocks automated checks) — confirm it yourself</em></span>
     </div>
   </header>
 
@@ -135,7 +135,7 @@
         <select id="f-val">
           <option value="any">Any</option>
           <option value="live">✅ Live-verified</option>
-          <option value="platform">⚠️ Browser-only</option>
+          <option value="platform">⚠️ Couldn't verify</option>
         </select></div>
     </div>
     <div class="row2">
@@ -161,7 +161,7 @@
     <ul>
       <li><strong>Move fast.</strong> Every page above loads with real inventory, but <em>individual</em> apartments turn over daily in NYC summer-intern season. A specific unit you like today may be gone next week.</li>
       <li><strong>Student / intern housing usually ends ~Aug 15.</strong> If your internship runs to the end of August, confirm the exact end date with FOUND, EHS, or SVA before booking — you may need a few extra nights elsewhere.</li>
-      <li><strong>⚠️ Browser-only sources</strong> (Leasebreak, Furnished Finder, Outpost Club) are real, established platforms. They block automated checkers, so I couldn't load them headless, but they open normally for you.</li>
+      <li><strong>⚠️ Three sources I could not verify</strong> (Leasebreak, Furnished Finder, Outpost Club): every automated check I ran was blocked (HTTP 403), so I have not personally confirmed these load. They're well-known NYC rental platforms that show up in search with live inventory, but open them yourself before relying on them.</li>
       <li><strong>NYU Summer Housing is closed</strong> to non-NYU-affiliated interns for 2026, so it's left off this list.</li>
       <li><strong>Prices</strong> are the actual ranges each site showed on 15 Jun 2026, or noted as "enter dates." Treat them as starting points, not quotes.</li>
     </ul>
@@ -185,10 +185,10 @@ const DATA = [
     note:"Built for interns. No broker fee, no credit check. Confirm the Aug 15 end date works.",
     url:"https://www.foundstudy.com/nycsummerhousing", rec:2 },
 
-  { name:"SVA — Gramercy Residence", cat:"intern", loc:"24th St &amp; Gramercy — a 5-min walk to Flatiron",
-    locTags:["gramercy","flatiron"], size:"Intern rooms", sizeTags:["room"],
-    price:"Intern rate (see page)", priceMin:2000, avail:"Summer 2026 · tours open", val:"live",
-    note:"The closest student housing to Flatiron. Open to visiting interns for summer 2026.",
+  { name:"SVA — Intern Housing", cat:"intern", loc:"24th Street Residence &amp; Gramercy Women's Residence — 5-min walk to Flatiron",
+    locTags:["gramercy","flatiron"], size:"Intern rooms (Gramercy residence is women-only)", sizeTags:["room"],
+    price:"Intern rate (see page)", priceMin:2000, avail:"Summer 2026 · registration open (opened Feb 10)", val:"live",
+    note:"Closest student housing to Flatiron. 24th Street &amp; Gramercy residences for interns and visiting students. Full payment due at registration.",
     url:"https://sva.edu/life-at-sva/campus-life/housing/summer-housing/for-interns-and-visiting-students", rec:3 },
 
   { name:"EHS — NYC Intern Housing", cat:"intern", loc:"7 residences incl. 55 John St (FiDi), Murray Hill, Midtown",
@@ -300,7 +300,7 @@ function render(){
         <h3>${d.name}</h3>
         <div class="badges">
           <span class="badge ${CATCLASS[d.cat]}">${CATLABEL[d.cat]}</span>
-          <span class="badge ${d.val==="live"?"b-live":"b-platform"}">${d.val==="live"?"✅ Live-verified":"⚠️ Browser-only"}</span>
+          <span class="badge ${d.val==="live"?"b-live":"b-platform"}">${d.val==="live"?"✅ Live-verified":"⚠️ Couldn't verify"}</span>
         </div>
       </div>
       <div class="rows">
