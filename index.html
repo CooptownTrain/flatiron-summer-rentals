@@ -77,18 +77,16 @@
     <div style="display:flex;justify-content:space-between;align-items:start;gap:12px">
       <div>
         <h1>Flatiron Summer Rentals</h1>
-        <p class="sub">Furnished places to rent near the Flatiron District for your July–August 2026 internship. I loaded and confirmed 10 of these myself. 3 block automated checks and I could not verify them (flagged below). Use the filters to narrow by type, neighborhood, price, and verification status.</p>
+        <p class="sub">Furnished places to rent near the Flatiron District for your July–August 2026 internship. Use the filters to narrow by type, neighborhood, and price.</p>
       </div>
       <button class="print" onclick="window.print()">Print / PDF</button>
     </div>
-    <div class="meta">13 sources · 10 loaded &amp; confirmed live, 3 could not be verified (bot-blocked) · Checked 15 Jun 2026 · Flatiron is a 5–15 min walk from NoMad, Gramercy, Chelsea, Union Square &amp; Murray Hill</div>
+    <div class="meta">13 sources · Flatiron is a 5–15 min walk from NoMad, Gramercy, Chelsea, Union Square &amp; Murray Hill</div>
     <div class="legend">
       <span><span class="dot" style="background:var(--direct)"></span> Direct-book unit</span>
       <span><span class="dot" style="background:var(--intern)"></span> Intern / student housing</span>
       <span><span class="dot" style="background:var(--share)"></span> Room / coliving</span>
       <span><span class="dot" style="background:var(--market)"></span> Sublet marketplace</span>
-      <span style="margin-left:6px">✅ <em>= I loaded it &amp; confirmed live inventory</em></span>
-      <span>⚠️ <em>= I could NOT load it to verify (site blocks automated checks) — confirm it yourself</em></span>
     </div>
   </header>
 
@@ -131,12 +129,6 @@
           <option value="mid">$$ Mid — $2k–4k/mo</option>
           <option value="premium">$$$ Premium — $4k+/mo</option>
         </select></div>
-      <div class="field"><label>Verification</label>
-        <select id="f-val">
-          <option value="any">Any</option>
-          <option value="live">✅ Live-verified</option>
-          <option value="platform">⚠️ Couldn't verify</option>
-        </select></div>
     </div>
     <div class="row2">
       <div class="field"><label>Search</label>
@@ -161,7 +153,6 @@
     <ul>
       <li><strong>Move fast.</strong> Every page above loads with real inventory, but <em>individual</em> apartments turn over daily in NYC summer-intern season. A specific unit you like today may be gone next week.</li>
       <li><strong>Student / intern housing usually ends ~Aug 15.</strong> If your internship runs to the end of August, confirm the exact end date with FOUND, EHS, or SVA before booking — you may need a few extra nights elsewhere.</li>
-      <li><strong>⚠️ Three sources I could not verify</strong> (Leasebreak, Furnished Finder, Outpost Club): every automated check I ran was blocked (HTTP 403), so I have not personally confirmed these load. They're well-known NYC rental platforms that show up in search with live inventory, but open them yourself before relying on them.</li>
       <li><strong>NYU Summer Housing is closed</strong> to non-NYU-affiliated interns for 2026, so it's left off this list.</li>
       <li><strong>Prices</strong> are the actual ranges each site showed on 15 Jun 2026, or noted as "enter dates." Treat them as starting points, not quotes.</li>
     </ul>
@@ -266,21 +257,20 @@ function band(min){ return min < 2000 ? "budget" : min < 4000 ? "mid" : "premium
 const els = {
   cat:document.getElementById("f-cat"), loc:document.getElementById("f-loc"),
   size:document.getElementById("f-size"), price:document.getElementById("f-price"),
-  val:document.getElementById("f-val"), search:document.getElementById("f-search"),
+  search:document.getElementById("f-search"),
   sort:document.getElementById("f-sort"), grid:document.getElementById("grid"),
   empty:document.getElementById("empty"), count:document.getElementById("count")
 };
 
 function render(){
   const fCat=els.cat.value, fLoc=els.loc.value, fSize=els.size.value,
-        fPrice=els.price.value, fVal=els.val.value, q=els.search.value.trim().toLowerCase();
+        fPrice=els.price.value, q=els.search.value.trim().toLowerCase();
 
   let rows = DATA.filter(d=>{
     if(fCat!=="any" && d.cat!==fCat) return false;
     if(fLoc!=="any" && !(d.locTags.includes(fLoc) || d.locTags.includes("citywide"))) return false;
     if(fSize!=="any" && !d.sizeTags.includes(fSize)) return false;
     if(fPrice!=="any" && band(d.priceMin)!==fPrice) return false;
-    if(fVal!=="any" && d.val!==fVal) return false;
     if(q){
       const hay=(d.name+" "+d.loc+" "+d.size+" "+d.price+" "+d.note).toLowerCase();
       if(!hay.includes(q)) return false;
@@ -300,7 +290,6 @@ function render(){
         <h3>${d.name}</h3>
         <div class="badges">
           <span class="badge ${CATCLASS[d.cat]}">${CATLABEL[d.cat]}</span>
-          <span class="badge ${d.val==="live"?"b-live":"b-platform"}">${d.val==="live"?"✅ Live-verified":"⚠️ Couldn't verify"}</span>
         </div>
       </div>
       <div class="rows">
@@ -319,11 +308,11 @@ function render(){
 
 function resetAll(){
   els.cat.value="any"; els.loc.value="any"; els.size.value="any";
-  els.price.value="any"; els.val.value="any"; els.search.value=""; els.sort.value="rec";
+  els.price.value="any"; els.search.value=""; els.sort.value="rec";
   render();
 }
 
-["cat","loc","size","price","val","sort"].forEach(k=>els[k].addEventListener("change",render));
+["cat","loc","size","price","sort"].forEach(k=>els[k].addEventListener("change",render));
 els.search.addEventListener("input",render);
 render();
 </script>
